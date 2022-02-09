@@ -1,34 +1,16 @@
-#!/usr/bin/python
-# -*- encoding: utf-8; py-indent-offset: 4 -*-
-# +------------------------------------------------------------------+
-# |             ____ _               _        __  __ _  __           |
-# |            / ___| |__   ___  ___| | __   |  \/  | |/ /           |
-# |           | |   | '_ \ / _ \/ __| |/ /   | |\/| | ' /            |
-# |           | |___| | | |  __/ (__|   <    | |  | | . \            |
-# |            \____|_| |_|\___|\___|_|\_\___|_|  |_|_|\_\           |
-# |                                                                  |
-# | Copyright Mathias Kettner 2014             mk@mathias-kettner.de |
-# +------------------------------------------------------------------+
-#
-# This file is part of Check_MK.
-# The official homepage is at http://mathias-kettner.de/check_mk.
-#
-# check_mk is free software;  you can redistribute it and/or modify it
-# under the  terms of the  GNU General Public License  as published by
-# the Free Software Foundation in version 2.  check_mk is  distributed
-# in the hope that it will be useful, but WITHOUT ANY WARRANTY;  with-
-# out even the implied warranty of  MERCHANTABILITY  or  FITNESS FOR A
-# PARTICULAR PURPOSE. See the  GNU General Public License for more de-
-# tails. You should have  received  a copy of the  GNU  General Public
-# License along with GNU Make; see the file  COPYING.  If  not,  write
-# to the Free Software Foundation, Inc., 51 Franklin St,  Fifth Floor,
-# Boston, MA 02110-1301 USA.
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# Copyright (C) 2019 tribe29 GmbH - License: GNU General Public License v2
+# This file is part of Checkmk (https://checkmk.com). It is subject to the terms and
+# conditions defined in the file COPYING, which is part of this source code package.
 
 # v1.0 - initial release:
 # Author: Davide Del Grande <davide.delgrande _ lanewan.it> / <delgrande.davide _ gmail.com>
 # Based on original apc_inrow_* plugin in Check_MK 1.2.8p13
 # This plugin supports APC InRow Gen2 RD, which has different OIDs
 # http://www.oidview.com/mibs/318/PowerNet-MIB.html
+# v1.1 - update for check_mk 2.x
+# Author: Adrian Noss <dadrian.noss@gmail.com>
 
 # Air Flow threasholds lowered because of normal operation in full winter in temperature-controlled datacenter with these values:
 # Cool Output:  3.4 kW Cool Demand:  3.4 kW Rack Inlet Temperature:  21.2 °C Supply Air Temperature:  19.2 °C Return Air Temperature:  21.6 °C Suction Temperature:  20.4 °C Air Flow:  307/100 L/s Fan Speed:  29.6 % 
@@ -66,7 +48,7 @@ def check_apc_inrowg2rd_airflow(_no_item, params, info):
         message = "too high"
 
     perf = [ ("flow", flow, warn, crit ) ]
-    return state, "%.2fl/s %s" % ( flow, message ), perf
+    return state, "%.0fl/s %s" % ( flow, message ), perf
 
 
 check_info["apc_inrowg2rd_airflow"] = {
