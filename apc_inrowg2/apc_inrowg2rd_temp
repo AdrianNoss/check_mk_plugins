@@ -8,19 +8,23 @@
 # problems because it might remove variables from the check-context which are necessary for
 # resolving legacy discovery results such as [("SUMMARY", "diskstat_default_levels")]. Furthermore,
 # it might also remove variables needed for accessing discovery rulesets.
-from cmk.base.check_legacy_includes.temperature import *  # pylint: disable=wildcard-import,unused-wildcard-import
 
-
+# v1.0 - initial release:
+# Author: Davide Del Grande <davide.delgrande _ lanewan.it> / <delgrande.davide _ gmail.com>
+# Based on original apc_inrow_* plugin in Check_MK 1.2.8p13
+# This plugin supports APC InRow Gen2 RD, which has different OIDs
+# http://www.oidview.com/mibs/318/PowerNet-MIB.html
+# v1.1 - update for check_mk 2.x
+# Author: Adrian Noss <dadrian.noss@gmail.com>
 
 # .1.3.6.1.4.1.318.1.1.13.4.5.2.1.7  -->  PowerNet-MIB::airIRRG2RDT2StatusRackInletTempMetric.0
 # .1.3.6.1.4.1.318.1.1.13.4.5.2.1.9  -->  PowerNet-MIB::airIRRG2RDT2StatusSupplyAirTempMetric.0
 # .1.3.6.1.4.1.318.1.1.13.4.5.2.1.11 -->  PowerNet-MIB::airIRRG2RDT2StatusReturnAirTempMetric.0
 # .1.3.6.1.4.1.318.1.1.13.4.5.2.1.13 -->  PowerNet-MIB::airIRRG2RDT2StatusSuctionTempMetric.0
 
+from cmk.base.check_legacy_includes.temperature import *  # pylint: disable=wildcard-import,unused-wildcard-import
 
 factory_settings["apc_inrow_temp_default_levels"] = {"levels": (30, 35)}
-
-
 
 def parse_apc_inrowg2rd_temp(info):
    parsed = {}
@@ -30,7 +34,6 @@ def parse_apc_inrowg2rd_temp(info):
         ):
             if what not in ["", "-1"]:
                 parsed.setdefault(what_item, float(what) / 10)
-
    return parsed
 
 
